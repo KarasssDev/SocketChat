@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>SocketChat.Client</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="CLIClient.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SocketChat.Base\SocketChat.Base.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Terminal.Gui.Elmish" Version="2.1.172" />
+    </ItemGroup>
+
+</Project>

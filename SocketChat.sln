@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SocketChat.Server", "SocketChat.Server\SocketChat.Server.fsproj", "{A936E8FA-B653-477D-947A-3CB9E28F2B91}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SocketChat.CommandLineClient", "SocketChat.CommandLineClient\SocketChat.CommandLineClient.fsproj", "{6BCF5E06-66D6-428F-A791-0AE16661B801}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SocketChat.CLIClient", "SocketChat.CLIClient\SocketChat.CLIClient.fsproj", "{6BCF5E06-66D6-428F-A791-0AE16661B801}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SocketChat.Base", "SocketChat.Base\SocketChat.Base.fsproj", "{84DB0735-B617-4F92-B225-F44D3996B19B}"
 EndProject

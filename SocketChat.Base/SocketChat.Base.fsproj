@@ -6,9 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Logging.fs" />
         <Compile Include="Commands.fs" />
         <Compile Include="Server.fs" />
-        <Compile Include="BaseClient.fs" />
+        <Compile Include="Client.fs" />
     </ItemGroup>
 
 </Project>

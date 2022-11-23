@@ -20,6 +20,8 @@ let receiveString (socket: Socket) =
         return buffer
     }
 
+let private delimiter = '@'
+
 type Command =
     | Disconnect of string
     | Connect of string
@@ -27,21 +29,24 @@ type Command =
     with
     static member toBytes =
         function
-        | Disconnect username -> packString $"DISCONNECT %s{username}"
-        | Connect username -> packString $"CONNECT %s{username}"
-        | Send (username, message) -> packString $"SEND %s{username} %s{message}"
+        | Disconnect username -> packString $"DISCONNECT{delimiter}%s{username}"
+        | Connect username -> packString $"CONNECT{delimiter}%s{username}"
+        | Send (username, message) -> packString $"SEND{delimiter}%s{username}{delimiter}%s{message}"
     static member fromBytes (bytes: byte []) =
         let str = System.Text.Encoding.UTF8.GetString bytes
         str
-        |> fun s -> s.Split ' '
+        |> fun s -> s.Split delimiter
         |> function
             | [| "DISCONNECT"; username |] -> Disconnect username
             | [| "CONNECT"; username |] -> Connect username
             | [| "SEND"; username; message |] -> Send (username, message)
-            | _ -> UnexpectedCommand(str) |> raise
+            | _ ->
+                Logging.error $"Unexpected command: %s{str}"
+                UnexpectedCommand(str) |> raise
 
 type Socket with
     member this.SendCommand command =
+        Logging.debug $"Sending command: {command}"
         let bytes = Command.toBytes command
         this.SendAsync(bytes, SocketFlags.None)
         |> Async.AwaitTask
@@ -50,17 +55,22 @@ type Socket with
     member this.ReceiveCommand () =
         async {
             let! buffer = receiveString this
-            return Command.fromBytes buffer
+            let result = Command.fromBytes buffer
+            Logging.debug $"Received command: %A{result}"
+            return result
         }
 
-    member this.SendString (s: string) =
+    member this.SendMessage (s: string) =
+        Logging.debug $"Sending message: %s{s}"
         let bytes = packString s
         this.SendAsync(bytes, SocketFlags.None) |> Async.AwaitTask |> Async.Ignore
 
     member this.ReceiveMessage () =
         async {
             let! buffer = receiveString this
-            return System.Text.Encoding.UTF8.GetString buffer
+            let result = System.Text.Encoding.UTF8.GetString buffer
+            Logging.debug $"Received message: %s{result}"
+            return result
         }
 
 
